@@ -48,4 +48,4 @@ jobs:
         with:
           source: "./dist/TestApp/"
           target: "/data/docker/test/angular"
-          #strip_components: 3 # this is important
+          strip_components: 3 # this is important
