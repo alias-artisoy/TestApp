@@ -47,5 +47,5 @@ jobs:
           KEY: ${{ secrets.FIRSTVMSSH }}
         with:
           source: "./dist/TestApp/"
-          target: "/var/www/html"
+          target: "/home/artglendalefernandez/www/angular"
           strip_components: 3 # this is important
