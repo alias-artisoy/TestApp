@@ -43,7 +43,7 @@ jobs:
         env:
           HOST: ${{ secrets.FIRSTVMHOST }}
           USERNAME: ${{ secrets.FIRSTVMUSERNAME }}
-          APP_PORT: 22
+          PORT: 22
           KEY: ${{ secrets.FIRSTVMSSH }}
         with:
           source: "./dist/TestApp/"
