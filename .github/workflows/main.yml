@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "master" ]
+    branches: [ "master", "production" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,7 +38,8 @@ jobs:
       - run: npm install -g @angular/cli > /dev/null
       - run: ng build --prod
 
-      - name: copy file via ssh key
+      - name: copy file via ssh key to ${{ github.ref_name }}
+        if: ${{ github.ref_name == 'master' }}
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.FIRSTVMHOST }}
@@ -48,4 +49,17 @@ jobs:
           script: ls -la
           source: "./dist/TestApp/"
           target: "/data/docker/test/angular"
+          strip_components: 3 # this is important
+
+      - name: copy file via ssh key to ${{ github.ref_name }}
+        if: ${{ github.ref_name == 'production' }}
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.FIRSTVMHOST }}
+          username: ${{ secrets.FIRSTVMUSERNAME }}
+          port: 22
+          key: ${{ secrets.FIRSTVMSSH }}
+          script: ls -la
+          source: "./dist/TestApp/"
+          target: "/data/docker/production/angular"
           strip_components: 3 # this is important
